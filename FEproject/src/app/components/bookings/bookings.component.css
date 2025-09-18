@@ -1,0 +1,252 @@
+/* Bookings Page Styles */
+.bookings-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.bookings-header {
+  background: white !important;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.stats-card {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+
+
+/* Bookings Grid */
+.bookings-grid {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.booking-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.booking-card:hover::before {
+  left: 100%;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.booking-card[data-status="upcoming"] {
+  border-left: 5px solid #28a745;
+}
+
+.booking-card[data-status="completed"] {
+  border-left: 5px solid #6c757d;
+}
+
+.booking-card[data-status="cancelled"] {
+  border-left: 5px solid #dc3545;
+}
+
+.booking-card .card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Poster Container */
+.poster-container {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.booking-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.booking-card:hover .booking-poster {
+  transform: scale(1.05);
+}
+
+.poster-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.rating-badge {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  align-self: flex-end;
+}
+
+/* Booking Details */
+.booking-details {
+  background: white;
+  position: relative;
+}
+
+.info-item {
+  margin-bottom: 0.5rem;
+}
+
+.info-item small {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.booking-actions .btn {
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.booking-actions .btn:hover {
+  transform: translateY(-2px);
+}
+
+.booking-actions .btn-outline-primary:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+}
+
+/* Empty State */
+.empty-state {
+  background: white;
+  border-radius: 20px;
+  padding: 4rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+  position: relative;
+}
+
+.empty-icon i {
+  opacity: 0.3;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Loading State */
+.loading-state {
+  background: white;
+  border-radius: 20px;
+  padding: 4rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Status Badges */
+.badge.bg-success {
+  background: linear-gradient(135deg, #28a745, #20c997) !important;
+}
+
+.badge.bg-secondary {
+  background: linear-gradient(135deg, #6c757d, #adb5bd) !important;
+}
+
+.badge.bg-danger {
+  background: linear-gradient(135deg, #dc3545, #fd7e14) !important;
+}
+
+.badge.bg-primary {
+  background: linear-gradient(135deg, #007bff, #6610f2) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bookings-header .stats-card {
+    margin-top: 2rem;
+  }
+  
+  .poster-container {
+    height: 200px;
+  }
+  
+  .filters-section {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* Animations */
+.booking-card {
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.booking-card:nth-child(1) { animation-delay: 0.1s; }
+.booking-card:nth-child(2) { animation-delay: 0.2s; }
+.booking-card:nth-child(3) { animation-delay: 0.3s; }
+.booking-card:nth-child(4) { animation-delay: 0.4s; }
+.booking-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}

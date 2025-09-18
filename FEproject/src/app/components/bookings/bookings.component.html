@@ -1,0 +1,170 @@
+<!-- Bookings History Page -->
+<div class="bookings-container">
+  <!-- Header Section -->
+  <div class="bookings-header bg-white text-dark py-5 mb-5 border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="h2 fw-bold mb-3">
+            <i class="bi bi-ticket-perforated me-3 text-primary"></i>My Bookings
+          </h1>
+          <p class="lead mb-0 text-muted">Track your movie tickets and booking history</p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="loading-state text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted">Loading your bookings...</p>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @else if (bookings.length === 0) {
+      <div class="empty-state text-center py-5">
+        <div class="empty-icon mb-4">
+          <i class="bi bi-ticket-perforated display-1 text-muted"></i>
+          <h4 class="mt-3">No bookings found</h4>
+          <p class="text-muted">You don't have any bookings yet</p>
+        </div>
+        <button class="btn btn-primary btn-lg rounded-pill px-4" routerLink="/home">
+          <i class="bi bi-plus-lg me-2"></i>Book Now
+        </button>
+      </div>
+    }
+    
+    <!-- Bookings List -->
+    @else {
+      <div class="bookings-grid">
+        @for (booking of bookings; track booking._id) {
+          <div class="booking-card" [attr.data-status]="getStatusText(booking).toLowerCase()">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body p-0">
+                <div class="row g-0">
+                  <!-- Movie Poster -->
+                  <div class="col-md-4">
+                    <div class="poster-container">
+                      <img [src]="getMovieForBooking(booking).posterUrl"
+                           [alt]="getMovieForBooking(booking).title"
+                           class="booking-poster">
+                      <div class="poster-overlay">
+                        <div class="rating-badge">
+                          <i class="bi bi-star-fill text-warning me-1"></i>
+                          {{ getMovieForBooking(booking).rating }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Booking Details -->
+                  <div class="col-md-8">
+                    <div class="booking-details p-4">
+                      <!-- Header -->
+                      <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                          <h5 class="card-title fw-bold mb-1">{{ getMovieForBooking(booking).title }}</h5>
+                          <span class="badge bg-light text-dark">{{ getMovieForBooking(booking).genre }}</span>
+                        </div>
+                        <span class="badge" [class]="'bg-' + getStatusBadge(booking)">
+                          {{ getStatusText(booking) }}
+                        </span>
+                      </div>
+
+                      <!-- Booking Info -->
+                      <div class="booking-info mb-3">
+                        <div class="row">
+                          <div class="col-sm-6 mb-2">
+                            <div class="info-item">
+                              <i class="bi bi-calendar3 text-primary me-2"></i>
+                              <small class="text-muted">Show Date</small>
+                              <div class="fw-semibold">{{ (booking.showtime) | date: 'shortDate' }}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 mb-2">
+                            <div class="info-item">
+                              <i class="bi bi-clock text-primary me-2"></i>
+                              <small class="text-muted">Show Time</small>
+                              <div class="fw-semibold">{{ formatTime(booking.showtime) }}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 mb-2">
+                            <div class="info-item">
+                              <i class="bi bi-building text-primary me-2"></i>
+                              <small class="text-muted">Theater</small>
+                              <div class="fw-semibold">{{ getShowtimeForBooking(booking).theater || 'Main Theater' }}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 mb-2">
+                            <div class="info-item">
+                              <i class="bi bi-geo-alt text-primary me-2"></i>
+                              <small class="text-muted">Seats</small>
+                              <div class="fw-semibold">{{ booking.seats.join(', ') }}</div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 mb-2">
+                            <div class="info-item">
+                              <i class="bi bi-credit-card text-primary me-2"></i>
+                              <small class="text-muted">Total Paid</small>
+                              <div class="fw-semibold text-success">${{ booking.totalPrice.toFixed(2) }}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Booking Meta -->
+                      <div class="booking-meta mb-3">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <small class="text-muted">
+                              <i class="bi bi-hash me-1"></i>Booking ID: {{ booking.bookingId }}
+                            </small>
+                          </div>
+                          <div class="col-sm-6">
+                            <small class="text-muted">
+                              <i class="bi bi-calendar-check me-1"></i>Booked: {{ formatDateTime(booking.bookingDate) }}
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Action Buttons -->
+                      <div class="booking-actions">
+                        <div class="btn-group w-100" role="group">
+                          <button class="btn btn-outline-primary btn-sm" (click)="downloadTicket(booking)">
+                            <i class="bi bi-download me-1"></i>
+                            Download Ticket
+                          </button>
+                          
+                          @if (canCancelBooking(booking)) {
+                            <button class="btn btn-outline-danger btn-sm" (click)="cancelBooking(booking)">
+                              <i class="bi bi-x-circle me-1"></i>
+                              Cancel
+                            </button>
+                          }
+                          
+                          <button class="btn btn-outline-secondary btn-sm" 
+                                  [routerLink]="['/movies', getMovieForBooking(booking)._id || booking.movieId]">
+                            <i class="bi bi-arrow-right me-1"></i>
+                            View Details
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+    
+  </div>
+</div>

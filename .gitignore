@@ -1,0 +1,6 @@
+# Ignore MongoDB data / WiredTiger files
+Project/db/
+Project/db/*
+Project/db/WiredTiger*
+Project/db/journal/
+Project/db/diagnostic.data/

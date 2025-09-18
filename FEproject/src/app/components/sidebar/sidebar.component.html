@@ -1,0 +1,42 @@
+<div class="sidebar bg-light d-flex flex-column vh-100 p-3" style="width: 280px; min-width: 280px;">
+  <!-- App Logo -->
+  <div class="d-flex align-items-center mb-4">
+    <div class="logo-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" 
+         style="width: 40px; height: 40px; font-size: 18px; font-weight: bold;">
+      C
+    </div>
+    <h5 class="mb-0 fw-bold text-dark">CINEMACITY</h5>
+  </div>
+
+
+
+  <!-- Menu Items -->
+  <nav class="flex-grow-1">
+    <ul class="list-unstyled">
+      @for (item of menuItems; track item.route) {
+        <li class="mb-2">
+          @if(item.label == 'Logout'){
+            <a (click)="logout()" 
+            [routerLink]="['']"
+               class="nav-link d-flex align-items-center text-dark text-decoration-none p-3 rounded-3 sidebar-item"
+               style="cursor: pointer;">
+              <span class="me-3" style="font-size: 18px;">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </a>
+          }
+          @else {
+          <a [routerLink]="item.route" 
+             class="nav-link d-flex align-items-center text-dark text-decoration-none p-3 rounded-3 sidebar-item"
+             [class.active]="item.route === '/home'"
+             routerLinkActive="active">
+            <span class="me-3" style="font-size: 18px;">{{ item.icon }}</span>
+            <span>{{ item.label }}</span>
+          </a>
+      }
+       </li>
+    }
+    </ul>
+  </nav>
+
+
+</div>

@@ -1,0 +1,47 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.main-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Global overrides for Bootstrap */
+:host ::ng-deep .btn-primary {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+:host ::ng-deep .btn-success {
+  background: linear-gradient(135deg, #198754, #20c997);
+  border: none;
+}
+
+:host ::ng-deep .text-success {
+  color: #198754 !important;
+}
+
+:host ::ng-deep .bg-success {
+  background-color: #198754 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .main-content {
+    min-height: calc(100vh - 80px);
+  }
+}
