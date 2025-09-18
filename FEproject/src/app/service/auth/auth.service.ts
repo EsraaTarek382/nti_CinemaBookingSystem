@@ -8,23 +8,25 @@ interface JWTPayload {
   exp: number;
   iat: number;
 }
-const API_URL = 'http://localhost:3001/api/users/login';
+//const API_URL = 'http://localhost:3001/api/users/login';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private API_URL = 'http://localhost:3001/api/users/login';
   constructor(private http:HttpClient) { }
 
   login({email, password}: {email: string; password: string}): any {
-    return this.http.post<{token: string}>(API_URL, {email, password})
+    return this.http.post<{token: string}>(this.API_URL, {email, password})
       .pipe(tap(response => {
         localStorage.setItem('token', response.token);
       }));
   }
 
   register({firstName, lastName, email, password, role}: {firstName: string; lastName: string; email: string; password: string; role: string}): any {
-    return this.http.post<{token: string}>(API_URL.replace('login', 'register'), {firstName, lastName, email, password})
+    return this.http.post<{token: string}>(this.API_URL.replace('login', 'register'), {firstName, lastName, email, password})
       .pipe(tap(response => {
         localStorage.setItem('token', response.token);
       }));

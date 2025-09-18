@@ -25,13 +25,12 @@ export class HomeComponent {
       this.movies = movies;
       console.log('Loaded movies:', this.movies);
       
-      // Log the first movie to see its structure
+      
       if (this.movies.length > 0) {
         console.log('First movie structure:', this.movies[0]);
         console.log('Movie ID field:', this.movies[0]._id || this.movies[0].id);
       }
-      
-      // Process poster URLs after movies are loaded
+     
       this.movies.forEach(movie => {
         if (movie.posterUrl) {
           movie.posterUrl = this.moviesService.getMovieImage(movie.posterUrl);

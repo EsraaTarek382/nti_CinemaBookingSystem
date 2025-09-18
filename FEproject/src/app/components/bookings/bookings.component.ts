@@ -50,7 +50,7 @@ export class BookingsComponent implements OnInit {
       return;
     }
 
-    // Get unique movie IDs and showtime IDs
+  
     const uniqueMovieIds = [...new Set(this.bookings.map(booking => booking.movieId))];
     const uniqueShowtimeIds = [...new Set(this.bookings.map(booking => booking.showtimeId).filter(id => id))];
     
@@ -59,7 +59,7 @@ export class BookingsComponent implements OnInit {
     const totalMovies = uniqueMovieIds.length;
     const totalShowtimes = uniqueShowtimeIds.length;
 
-    // Load movies
+
     uniqueMovieIds.forEach(movieId => {
       this.movieService.getMovieById(movieId).subscribe({
         next: (movie) => {
@@ -67,7 +67,7 @@ export class BookingsComponent implements OnInit {
           loadedMovies++;
           console.log(`Loaded movie ${movieId}:`, movie);
           
-          // Check if all data is loaded
+         
           if (loadedMovies === totalMovies && loadedShowtimes === totalShowtimes) {
             this.loading = false;
           }
@@ -76,7 +76,7 @@ export class BookingsComponent implements OnInit {
           console.error(`Error loading movie ${movieId}:`, error);
           loadedMovies++;
           
-          // Check if all data is loaded
+         
           if (loadedMovies === totalMovies && loadedShowtimes === totalShowtimes) {
             this.loading = false;
           }
@@ -84,18 +84,31 @@ export class BookingsComponent implements OnInit {
       });
     });
 
-    // Load showtimes if we have showtime IDs
+   
     if (totalShowtimes > 0) {
       uniqueShowtimeIds.forEach(showtimeId => {
-        this.showtimeService.getMovieShowtimes(showtimeId).subscribe({
+        // Find the booking with this showtimeId to get the corresponding movieId
+        const booking = this.bookings.find(b => b.showtimeId === showtimeId);
+        const movieId = booking ? booking.movieId : null;
+        if (!movieId) {
+          console.error(`No movieId found for showtimeId ${showtimeId}`);
+          loadedShowtimes++;
+          if (loadedMovies === totalMovies && loadedShowtimes === totalShowtimes) {
+            this.loading = false;
+          }
+          return;
+        }
+        this.showtimeService.getMovieShowtimes(movieId).subscribe({
           next: (showtimes) => {
-            // Store the first matching showtime or create a simple one
-            const showtime = Array.isArray(showtimes) ? showtimes[0] : showtimes;
+          
+            const showtime = Array.isArray(showtimes)
+  ? showtimes.find((s: any) => s._id === showtimeId)
+  : showtimes;
             this.showtimes.set(showtimeId, showtime);
             loadedShowtimes++;
             console.log(`Loaded showtime ${showtimeId}:`, showtime);
             
-            // Check if all data is loaded
+        
             if (loadedMovies === totalMovies && loadedShowtimes === totalShowtimes) {
               this.loading = false;
             }
@@ -104,7 +117,7 @@ export class BookingsComponent implements OnInit {
             console.error(`Error loading showtime ${showtimeId}:`, error);
             loadedShowtimes++;
             
-            // Check if all data is loaded
+        
             if (loadedMovies === totalMovies && loadedShowtimes === totalShowtimes) {
               this.loading = false;
             }
@@ -112,8 +125,7 @@ export class BookingsComponent implements OnInit {
         });
       });
     } else {
-      // If no showtimes to load, just wait for movies
-      loadedShowtimes = totalShowtimes; // This will be 0, so condition above will work
+      loadedShowtimes = totalShowtimes; 
     }
   }
 
@@ -190,7 +202,7 @@ export class BookingsComponent implements OnInit {
       }
     }
     
-    // Fallback to using the booking's showtime field directly
+   
     return {
       startTime: booking.showtime,
       date: booking.showtime,
@@ -201,13 +213,21 @@ export class BookingsComponent implements OnInit {
 
   getShowDate(booking: any): string {
     const showtime = this.getShowtimeForBooking(booking);
-    const date = showtime.date || showtime.startTime || booking.showtime;
+   
+    const date = showtime && (showtime.startTime || showtime.date || booking.showtime);
+    if (!date || isNaN(Date.parse(date))) {
+      return 'N/A';
+    }
     return this.formatDate(date);
   }
 
   getShowTime(booking: any): string {
     const showtime = this.getShowtimeForBooking(booking);
-    const time = showtime.startTime || showtime.date || booking.showtime;
+ 
+    const time = showtime && (showtime.startTime || showtime.date || booking.showtime);
+    if (!time || isNaN(Date.parse(time))) {
+      return 'N/A';
+    }
     return this.formatTime(time);
   }
 
@@ -227,10 +247,6 @@ export class BookingsComponent implements OnInit {
     }
   }
 
-  downloadTicket(booking: any): void {
-    const movie = this.getMovieForBooking(booking);
-    // In a real app, this would generate a PDF ticket
-    alert(`Ticket for "${movie.title}" will be downloaded shortly.`);
-  }
+ 
 
 }

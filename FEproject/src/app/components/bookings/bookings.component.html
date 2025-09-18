@@ -84,14 +84,14 @@
                             <div class="info-item">
                               <i class="bi bi-calendar3 text-primary me-2"></i>
                               <small class="text-muted">Show Date</small>
-                              <div class="fw-semibold">{{ (booking.showtime) | date: 'shortDate' }}</div>
+                              <div class="fw-semibold">{{ getShowDate(booking) }}</div>
                             </div>
                           </div>
                           <div class="col-sm-6 mb-2">
                             <div class="info-item">
                               <i class="bi bi-clock text-primary me-2"></i>
                               <small class="text-muted">Show Time</small>
-                              <div class="fw-semibold">{{ formatTime(booking.showtime) }}</div>
+                              <div class="fw-semibold">{{ getShowTime(booking) }}</div>
                             </div>
                           </div>
                           <div class="col-sm-6 mb-2">
@@ -128,7 +128,7 @@
                           </div>
                           <div class="col-sm-6">
                             <small class="text-muted">
-                              <i class="bi bi-calendar-check me-1"></i>Booked: {{ formatDateTime(booking.bookingDate) }}
+                            
                             </small>
                           </div>
                         </div>
@@ -137,17 +137,9 @@
                       <!-- Action Buttons -->
                       <div class="booking-actions">
                         <div class="btn-group w-100" role="group">
-                          <button class="btn btn-outline-primary btn-sm" (click)="downloadTicket(booking)">
-                            <i class="bi bi-download me-1"></i>
-                            Download Ticket
-                          </button>
                           
-                          @if (canCancelBooking(booking)) {
-                            <button class="btn btn-outline-danger btn-sm" (click)="cancelBooking(booking)">
-                              <i class="bi bi-x-circle me-1"></i>
-                              Cancel
-                            </button>
-                          }
+                          
+                       
                           
                           <button class="btn btn-outline-secondary btn-sm" 
                                   [routerLink]="['/movies', getMovieForBooking(booking)._id || booking.movieId]">

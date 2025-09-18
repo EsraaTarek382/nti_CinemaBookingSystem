@@ -42,7 +42,7 @@ export class RegisterComponent {
       this.authService.register(this.registerbody).subscribe({
         next: () => {
           this.isLoading = false; 
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         },
         error: (err: { error: { message: any; }; }) => {
           this.isLoading = false;

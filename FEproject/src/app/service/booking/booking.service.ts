@@ -18,7 +18,7 @@ export class BookingService {
    });
   }
 
-  // Get all bookings for the current user
+ 
   getAllBookings() {
     const token = localStorage.getItem('token');
     return this.http.get(`${API_URL}/history`, {
@@ -28,7 +28,7 @@ export class BookingService {
     });
   }
 
-  // Get booking by ID
+  
   getBookingById(bookingId: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${API_URL}/${bookingId}`, {
@@ -38,7 +38,7 @@ export class BookingService {
     });
   }
 
-  // Cancel booking
+
   cancelBooking(bookingId: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${API_URL}/${bookingId}`, {
