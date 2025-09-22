@@ -25,11 +25,11 @@ Built with **MongoDB**, **Express.js**, **Angular**, and **Node.js** (MEAN).
 
 ## 🏗️ Tech Stack
 
-- **Frontend**: Angular 16+, Bootstrap / Tailwind for UI
+- **Frontend**: Angular 16+, Bootstrap 
 - **Backend**: Node.js + Express.js
 - **Database**: MongoDB + Mongoose
 - **Authentication**: JWT-based user and admin auth
-- **Deployment**: (optional) Docker / AWS / Heroku
+
 
 ---
 
@@ -37,7 +37,7 @@ Built with **MongoDB**, **Express.js**, **Angular**, and **Node.js** (MEAN).
 
 ```bash
 cinema-booking-system/
-├── backend/
+├── project/
 │   ├── server.js              # Entry point
 │   ├── routes/                # Express routes
 │   ├── controllers/           # Controller logic
@@ -45,7 +45,7 @@ cinema-booking-system/
 │   ├── middleware/            # Auth, roles, error handling
 │   └── config/                # DB connection, env vars
 │
-├── frontend/
+├── FEproject/
 │   ├── src/app/
 │   │   ├── components/        # Angular components
 │   │   ├── services/          # Angular services (API calls)
