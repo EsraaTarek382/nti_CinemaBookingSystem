@@ -6,7 +6,14 @@ import allowedTo from '../middleware/allowedTo.js';
 const router = express.Router();
 
 router.post('/', verifyToken, showtimeController.createShowtime);
-router.get('/', showtimeController.getAllShowtimes);
+router.get('/', verifyToken, showtimeController.getAllShowtimes);
+
+router.get('/:id', verifyToken, showtimeController.getShowtimeByMovieId);
+router.put('/:id', verifyToken, allowedTo('Admin'), showtimeController.updateShowtime);
+router.delete('/:id', verifyToken, allowedTo('Admin'), showtimeController.deleteShowtime);
+
+
+
 router.get('/:id', showtimeController.getShowtimeByMovieId);
 router.put('/:id', verifyToken, allowedTo('Admin'), showtimeController.updateShowtime);
 router.delete('/:id', verifyToken, allowedTo('Admin'), showtimeController.deleteShowtime);

@@ -23,6 +23,8 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter })
 const router = express.Router()
 
+
+
 // Get all users (protected)
 router.get('/', verifyToken, userController.getAllUsers)
 

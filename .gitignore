@@ -4,3 +4,5 @@ Project/db/*
 Project/db/WiredTiger*
 Project/db/journal/
 Project/db/diagnostic.data/
+node_modules/
+Project/node_modules/

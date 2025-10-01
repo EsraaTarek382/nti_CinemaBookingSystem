@@ -32,17 +32,27 @@ let moviesrouter = express.Router();
 
 
 moviesrouter.route('/')
-    .get(movieController.getAllMovies,verifyToken)
-    .post(
+    .get( movieController.getAllMovies)
+    .post(verifyToken,
         upload.single('poster'),
         movieValidation,
-        movieController.addMovie,
-        verifyToken
+        movieController.addMovie
+    );
+
+
+
+
+moviesrouter.route('/')
+    .get( movieController.getAllMovies)
+    .post(verifyToken,
+        upload.single('poster'),
+        movieValidation,
+        movieController.addMovie
     );
 
 moviesrouter.route('/:movieId')
-    .get(movieController.getMovieById, verifyToken)
-    .put(movieValidation, movieController.updateMovie, verifyToken)
-    .delete(movieController.deleteMovie, verifyToken);
+    .get(verifyToken, movieController.getMovieById)
+    .put(verifyToken, movieValidation, movieController.updateMovie)
+    .delete(verifyToken, movieController.deleteMovie);
 
 export default moviesrouter;
